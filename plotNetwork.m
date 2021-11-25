@@ -5,17 +5,17 @@ function [ error ] = plotNetwork( hem )
 %   longiture: 0-360/10 degree
 %   latitude : 80-70-60 degree
 %
-%   Developed by Gabor Facsko (gabor.facsko@fmi.fi)
-%   Finnish Meteorological Institute, 2013
+%   Developed by Gabor Facsko (facsko.gabor@wigner.hu)
+%   Wigner Research Centre for Physics, Budapest, 2013-2021
 %
 % ------------------------------------------------------------------------
-
-
+%
     error = 0;
     % Coordinate network - longitude
     angleArrayPhi=pi/6;
-    angleArrayTheta=0:pi/12:35*pi/18;
-    [angleArrayTheta,angleArrayPhi]=pol2cart(pi/2+angleArrayTheta,angleArrayPhi);     
+    angleArrayTheta=0:pi/12:36*pi/18;
+    [angleArrayTheta,angleArrayPhi]=pol2cart(pi/2+angleArrayTheta,...
+        angleArrayPhi);     
     for ia=1:numel(angleArrayTheta)
         % Plot until 85^o
         plot([angleArrayPhi(ia),pi/36*angleArrayPhi(ia)],...
@@ -23,18 +23,21 @@ function [ error ] = plotNetwork( hem )
     end;
     % Coordinate network - latitude - 80 degree
     angleArrayPhi=pi/18;
-    angleArrayTheta=0:pi/18:35*pi/18;
-    [angleArrayTheta,angleArrayPhi]=pol2cart(pi/2+angleArrayTheta,angleArrayPhi);  
+    angleArrayTheta=0:pi/18:36*pi/18;
+    [angleArrayTheta,angleArrayPhi]=pol2cart(pi/2+angleArrayTheta,...
+        angleArrayPhi);  
     plot(angleArrayPhi,angleArrayTheta,'--k');
     % Coordinate network - latitude - 70 degree
     angleArrayPhi=pi/9;
-    angleArrayTheta=0:pi/18:35*pi/18;
-    [angleArrayTheta,angleArrayPhi]=pol2cart(pi/2+angleArrayTheta,angleArrayPhi);  
+    angleArrayTheta=0:pi/18:36*pi/18;
+    [angleArrayTheta,angleArrayPhi]=pol2cart(pi/2+angleArrayTheta,...
+        angleArrayPhi);  
     plot(angleArrayPhi,angleArrayTheta,'--k');
     % Coordinate network - latitude - 60 degree
     angleArrayPhi=pi/6;
-    angleArrayTheta=0:pi/18:35*pi/18;
-    [angleArrayTheta,angleArrayPhi]=pol2cart(pi/2+angleArrayTheta,angleArrayPhi);  
+    angleArrayTheta=0:pi/18:36*pi/18;
+    [angleArrayTheta,angleArrayPhi]=pol2cart(pi/2+angleArrayTheta,...
+        angleArrayPhi);  
     plot(angleArrayPhi,angleArrayTheta,'--k');
     
     % Labels - longitude
