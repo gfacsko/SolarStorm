@@ -1,4 +1,4 @@
-function [ error ] = plotMagnL1( simDir, mstateFilename, dump )
+function [ error ] = plotMagnL1( simDir, mstateFilename, step, dump )
 %plotMagnl1 Plots the magnetosphere and the IP shock from the L1 point
 %
 %   simDir        : Location of the simulation
@@ -28,7 +28,8 @@ function [ error ] = plotMagnL1( simDir, mstateFilename, dump )
     yMax=60; %64
     zMin=yMin;
     zMax=yMax;
-    step=20;
+    % The leap on the plots
+    gridStep=20;
    
     % Getting time from mstateFilename  
     year=str2num(mstateFilename(7:10));
@@ -42,12 +43,14 @@ function [ error ] = plotMagnL1( simDir, mstateFilename, dump )
     if (dump)
         [status,result]=unix(['/home/facskog/gumics/hcvis/hcintpol -n -v n,P,beta ',...
             sim_path,mstateFilename,' < ',...
-            root_path,'pointfiles/xyPointfile-SolarStorm-1RE.dat',' > ',...
-            root_path,'data/xyDump-',mstateFilename(7:21),'.dat']);         
+            root_path,'pointfiles/xyPointfile-SolarStorm-',...
+                num2str(step),'RE.dat',' > ',root_path,...
+                'data/xyDump-',mstateFilename(7:21),'.dat']);         
         [status,result]=unix(['/home/facskog/gumics/hcvis/hcintpol -n -v n,P,beta ',...
             sim_path,mstateFilename,' < ',...
-            root_path,'pointfiles/xzPointfile-SolarStorm-1RE.dat',' > ',...
-            root_path,'data/xzDump-',mstateFilename(7:21),'.dat']);    
+            root_path,'pointfiles/xzPointfile-SolarStorm-',...
+                num2str(step),'RE.dat',' > ',root_path,...
+                'data/xzDump-',mstateFilename(7:21),'.dat']);    
 %         [status,result]=unix(['/home/facskog/gumics/hcvis/hcintpol -n -v n,P,beta ',...
 %                 sim_path,mstateFilename,' < ',...
 %                 root_path,'pointfiles/yzPointfile-SolarStorm-1RE.dat',' > ',...
@@ -115,8 +118,8 @@ function [ error ] = plotMagnL1( simDir, mstateFilename, dump )
           %  'Rotation',270,'VerticalAlignment','Bottom'); 
         % Plot the appropriate quantity
         scatter(Axy(:,1),Axy(:,2),2,Axy(:,4),'s','filled');
-        set(gca,'XTick',xMin:step:xMax);    
-        set(gca,'YTick',yMin:step:yMax);
+        set(gca,'XTick',xMin:gridStep:xMax);    
+        set(gca,'YTick',yMin:gridStep:yMax);
       %  xlabel('X_{GSE} [R_{E}]');
         datetick('x',' ');
         ylabel('Y_{GSE} [R_{E}]');   
@@ -125,8 +128,12 @@ function [ error ] = plotMagnL1( simDir, mstateFilename, dump )
         % Circle
         plot(r*sin(angle),r*cos(angle),'-w');   
         % Grid (the grid command is overplotted)
-        for ix=xMin+step:step:xMax-step,plot([ix,ix],[yMin,yMax],'-.w');end;
-        for iy=yMin+step:step:yMax-step,plot([xMin,xMax],[iy,iy],'-.w');end;
+        for ix=xMin+gridStep:gridStep:xMax-gridStep
+            plot([ix,ix],[yMin,yMax],'-.w');
+        end;
+        for iy=yMin+gridStep:gridStep:yMax-gridStep
+            plot([xMin,xMax],[iy,iy],'-.w');
+        end;
         % Information
         %text(10,40,'XY plane, Z=0 R_{E}');
         
@@ -142,8 +149,8 @@ function [ error ] = plotMagnL1( simDir, mstateFilename, dump )
         subplot('Position',[0.1 0.1 0.8 0.4]);        
         % Plot the appropriate quantity
         scatter(Axz(:,1),Axz(:,3),2,Axz(:,4),'s','filled');          
-        set(gca,'XTick',xMin:step:xMax);    
-        set(gca,'YTick',zMin:step:zMax);          
+        set(gca,'XTick',xMin:gridStep:xMax);    
+        set(gca,'YTick',zMin:gridStep:zMax);          
         xlabel('X_{GSE} [R_{E}]');
         ylabel('Z_{GSE} [R_{E}]');                 
         axis([xMin xMax zMin zMax]);        
@@ -151,8 +158,12 @@ function [ error ] = plotMagnL1( simDir, mstateFilename, dump )
         % Circle
         plot(r*sin(angle),r*cos(angle),'-w'); 
         % Grid (the grid command is overplotted)
-        for ix=xMin+step:step:xMax-step,plot([ix,ix],[zMin,zMax],'-.w');end;
-        for iz=zMin+step:step:zMax-step,plot([xMin,xMax],[iz,iz],'-.w');end;
+        for ix=xMin+gridStep:gridStep:xMax-step
+            plot([ix,ix],[zMin,zMax],'-.w');
+        end;
+        for iz=zMin+gridStep:gridStep:zMax-step
+            plot([xMin,xMax],[iz,iz],'-.w');
+        end;
         % Information
         %text(10,40,'XZ plane, Y=0 R_E');        
                  
@@ -204,7 +215,7 @@ function [ error ] = plotMagnL1( simDir, mstateFilename, dump )
         
     prefix='n';              
 
-    print(p,'-depsc2',[root_path,'images/',prefix,'QuickPlot-',...
+    print(p,'-depsc2',[root_path,'images/',prefix,'MagnPlot-',...
         mstateFilename(7:21),'.eps']); 
 
     % Closing the plot box
