@@ -103,17 +103,18 @@ function [ error ] = plotMagnL1( simDir, mstateFilename, step, dump )
         % XY plot ------------------------------------------------------------
                
         % Color bar with text, appropriate colourrange                               
-        subplot('Position',[0.9 0.15 0.05 0.75]);     
-        colormap(getColormap(1024,'jet'));
+        subplot('Position',[0.875 0.175 0.05 0.7]);     
+        colormap(getColormap(100,'jet'));
         cb=colorbar;
-        caxis([round(min(Axz(:,4))/5)*5,round(max(Axz(:,4))/5)*5]); 
+        caxis([0,100]); 
+%         caxis([round(min(Axz(:,4))/5)*5,round(max(Axz(:,4))/5)*5]); 
         set(get(cb,'YLabel'),'String','\rho [{cm}^{-3}]',...
              'Rotation',270,'VerticalAlignment','Bottom'); 
         axis off;
         
         % Plot XY -------------------------------------------------------
         %subplot('Position',[0.1 0.75 0.7 0.2]);        
-        subplot('Position',[0.1 0.55 0.8 0.4]);                  
+        subplot('Position',[0.1 0.55 0.775 0.375]);                  
        % set(get(cb,'YLabel'),'String','log(\rho) [{cm}^{-3}]',...
           %  'Rotation',270,'VerticalAlignment','Bottom'); 
         % Plot the appropriate quantity
@@ -136,17 +137,24 @@ function [ error ] = plotMagnL1( simDir, mstateFilename, step, dump )
         end;
         % Information
         %text(10,40,'XY plane, Z=0 R_{E}');
+        text(120,72,[' Solar wind density plot at ',...
+            mstateFilename(16:17),':',mstateFilename(18:19),' on ',...
+            datestr([str2num(mstateFilename(7:10))...
+            str2num(mstateFilename(11:12))...
+            str2num(mstateFilename(13:14)) 0 0 0],'dd mmm yyyy')],...
+            'HorizontalAlignment','Center');
         
         % XZ plot ---------------------------------------------------------
                        
         % Colormap   
-       % colormap(getColormap(256,'jet')); 
+        colormap(getColormap(100,'jet'));
+        % colormap(getColormap(256,'jet')); 
         % Appropriate colourrange            
        % caxis([0, round(max(Axz(:,4)))]); 
         % Colorbar with text
       %  cb=colorbar;   
       
-        subplot('Position',[0.1 0.1 0.8 0.4]);        
+        subplot('Position',[0.1 0.125 0.775 0.375]);        
         % Plot the appropriate quantity
         scatter(Axz(:,1),Axz(:,3),2,Axz(:,4),'s','filled');          
         set(gca,'XTick',xMin:gridStep:xMax);    

@@ -42,8 +42,8 @@ function [ error ] = plotQuickLook_launch( simDir, strRestart )
             plotMagnL1(simDir,result(nTime(it):nTime(it)+23),1,true);
             plotIonoOC(simDir,result(nTime(it):nTime(it)+23));
              % Compres eps files
-             unix(['gzip ',root_path,'images/*nMagnPlot-*.eps ']);
-             unix(['gzip ',root_path,'images/[ns]*IonoPlot-',...
+             unix(['gzip -f ',root_path,'images/*nMagnPlot-*.eps ']);
+             unix(['gzip -f ',root_path,'images/[ns]*IonoPlot-',...
                  fileStr(7:numel(fileStr)-3),'.eps ']);                   
              % Delete data files
              unix(['rm ',root_path,'data/*Dump-',...
